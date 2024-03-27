@@ -3,6 +3,7 @@ package jmsfundamentals.messageestructure;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSProducer;
+import javax.jms.Message;
 import javax.jms.Queue;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -36,9 +37,11 @@ public class MessagePriority {
 			
 			for(int i = 0; i < 3; i++) {
 				System.out.println(consumer.receiveBody(String.class));
+				Message receivedMessage = consumer.receive();
+				System.out.println(receivedMessage.getJMSPriority());
 			}
 		}catch(Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 }
