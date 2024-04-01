@@ -1,4 +1,4 @@
-package jmsfundamentals;
+package jmsfundamentals.messageestructure;
 
 import java.util.HashMap;
 import java.util.Map;

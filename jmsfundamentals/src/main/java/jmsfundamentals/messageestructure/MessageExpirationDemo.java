@@ -1,4 +1,4 @@
-package jmsfundamentals;
+package jmsfundamentals.messageestructure;
 
 import javax.jms.JMSContext;
 import javax.jms.JMSProducer;
