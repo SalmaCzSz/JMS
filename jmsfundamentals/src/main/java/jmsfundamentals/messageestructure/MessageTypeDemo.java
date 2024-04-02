@@ -5,6 +5,7 @@ import javax.jms.JMSContext;
 import javax.jms.JMSProducer;
 import javax.jms.MapMessage;
 import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.StreamMessage;
 import javax.jms.TextMessage;
@@ -42,11 +43,24 @@ public class MessageTypeDemo {
 			System.out.println(streamMessageReceived.readBoolean());
 			System.out.println(streamMessageReceived.readFloat());
 			
+			
 			MapMessage mapMessage = jmsContext.createMapMessage();
 			mapMessage.setBoolean("isCreditAvailable", true);
 			producer.send(queue, mapMessage);			
 			MapMessage mapMessageReceived = (MapMessage) jmsContext.createConsumer(queue).receive(5000);
 			System.out.println(mapMessageReceived.getBoolean("isCreditAvailable"));
+			
+			
+			ObjectMessage objectMessage = jmsContext.createObjectMessage();
+			Patient patient = new Patient();
+			patient.setId(1);
+			patient.setName("John");
+			objectMessage.setObject(patient);
+			producer.send(queue, objectMessage);
+			ObjectMessage objectMessageReceived = (ObjectMessage) jmsContext.createConsumer(queue).receive(5000);
+			Patient object = (Patient) objectMessageReceived.getObject();
+			System.out.println(patient.getId());
+			System.out.println(patient.getName());
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
