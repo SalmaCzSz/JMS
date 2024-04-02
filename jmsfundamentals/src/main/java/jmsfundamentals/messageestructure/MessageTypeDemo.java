@@ -56,11 +56,13 @@ public class MessageTypeDemo {
 			patient.setId(1);
 			patient.setName("John");
 			objectMessage.setObject(patient);
-			producer.send(queue, objectMessage);
-			ObjectMessage objectMessageReceived = (ObjectMessage) jmsContext.createConsumer(queue).receive(5000);
-			Patient object = (Patient) objectMessageReceived.getObject();
-			System.out.println(patient.getId());
-			System.out.println(patient.getName());
+			//producer.send(queue, objectMessage);
+			producer.send(queue, patient);
+			//ObjectMessage objectMessageReceived = (ObjectMessage) jmsContext.createConsumer(queue).receive(5000);
+			Patient objectMessageReceived = jmsContext.createConsumer(queue).receiveBody(Patient.class);
+			//Patient object = (Patient) objectMessageReceived.getObject();
+			System.out.println(objectMessageReceived.getId());
+			System.out.println(objectMessageReceived.getName());
 		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
