@@ -2,12 +2,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.jms.course</groupId>
-  <artifactId>jmsfundamentals</artifactId>
+  <groupId>com.udemy.jms</groupId>
+  <artifactId>p2p</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>jmsfundamentals</name>
+  <name>p2p</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -15,10 +15,10 @@
   </properties>
 
   <dependencies>
-	<dependency>
-	    <groupId>org.apache.activemq</groupId>
-	    <artifactId>artemis-jms-client-all</artifactId>
-	    <version>2.6.4</version>
-	</dependency>
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>artemis-jms-client-all</artifactId>
+      <version>2.6.4</version>
+    </dependency>
   </dependencies>
 </project>
