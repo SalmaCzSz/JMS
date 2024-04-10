@@ -19,10 +19,15 @@ public class ElegibilityCheckerApp {
 		try {
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 			JMSContext jmsContext = connectionFactory.createContext();
-			JMSConsumer consumer = jmsContext.createConsumer(requestQueue);
-			consumer.setMessageListener(new ElegibilityCheckListener());
+			JMSConsumer consumer1 = jmsContext.createConsumer(requestQueue);
+			JMSConsumer consumer2 = jmsContext.createConsumer(requestQueue);
+			//consumer.setMessageListener(new ElegibilityCheckListener());
 			
-			Thread.sleep(10000);
+			for(int i = 1; i <= 10; i++) {
+				System.out.println("Consumer I: " + consumer1.receive());
+				System.out.println("Consumer II: " + consumer2.receive());
+			}
+			//Thread.sleep(10000);
 			
 		} finally{};
 	}
