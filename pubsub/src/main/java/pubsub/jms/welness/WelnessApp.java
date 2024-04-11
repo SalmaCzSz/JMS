@@ -20,11 +20,18 @@ public class WelnessApp {
 		try {
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 			JMSContext jmsContext = connectionFactory.createContext();
-			JMSConsumer consumer = jmsContext.createConsumer(topic);
-			Message message = consumer.receive();
-			Employee employee = message.getBody(Employee.class);
+			JMSConsumer consumer1 = jmsContext.createSharedConsumer(topic, "sharedConsumer");
+			JMSConsumer consumer2 = jmsContext.createSharedConsumer(topic, "sharedConsumer");
 			
-			System.out.println(employee.getFirstName());
+			for(int i = 1; i <= 10; i+=2) {
+				Message message1 = consumer1.receive();
+				Employee employee1 = message1.getBody(Employee.class);
+				System.out.println("Consumer 1: " + employee1.getFirstName());
+				
+				Message message2 = consumer2.receive();
+				Employee employee2 = message2.getBody(Employee.class);
+				System.out.println("Consumer 2: " +employee2.getFirstName());
+			}
 		} finally {};
 	}
 }
