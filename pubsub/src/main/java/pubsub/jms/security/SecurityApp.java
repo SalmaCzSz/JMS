@@ -20,11 +20,20 @@ public class SecurityApp {
 		try {
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 			JMSContext jmsContext = connectionFactory.createContext();
-			JMSConsumer consumer = jmsContext.createConsumer(topic);
+			
+			jmsContext.setClientID("securityApp");
+			JMSConsumer consumer = jmsContext.createDurableConsumer(topic, "subscription1");
+			consumer.close();
+			consumer = jmsContext.createDurableConsumer(topic, "subscription1");
+			
+			Thread.sleep(10000);
+			
 			Message message = consumer.receive();
 			Employee employee = message.getBody(Employee.class);
-			
 			System.out.println(employee.getFirstName());
+			
+			consumer.close();
+			jmsContext.unsubscribe("subscription1");
 		} finally {};
 	}
 }
