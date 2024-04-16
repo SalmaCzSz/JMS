@@ -16,8 +16,9 @@ public class ClaimManagement {
 			JMSContext jmsContext = connectionFactory.createContext();
 			
 			JMSProducer producer = jmsContext.createProducer();
-			jmsContext.createConsumer(claimQueue, "");
+			JMSConsumer consumer = jmsContext.createConsumer(claimQueue, "hospitalId=1");
 			ObjectMessage objectMessage = jmsContext.createObjectMessage();
+			objectMessage.setIntProperty("hospitalId", 1);
 			
 			Claim claim = new Claim();
 			claim.setHospitalID(1);
@@ -29,6 +30,8 @@ public class ClaimManagement {
 			objectMessage.setObject(claim);
 			producer.send(claimQueue, objectMessage);
 			
+			Claim receiveBody = consumer.receiveBody(Claim.class);
+			System.out.println(receiveBody.getClaimAmount());
 		} finally {}
 	}
 }
