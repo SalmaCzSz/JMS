@@ -2,7 +2,7 @@ package com.jms.claimmanagement;
 
 import java.io.Serializable;
 
-public class ClaimQueue implements Serializable {
+public class Claim implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int hospitalID;
 	private String doctorName;
