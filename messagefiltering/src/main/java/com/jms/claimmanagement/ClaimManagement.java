@@ -16,12 +16,12 @@ public class ClaimManagement {
 			JMSContext jmsContext = connectionFactory.createContext();
 			
 			JMSProducer producer = jmsContext.createProducer();
-			//JMSConsumer consumer = jmsContext.createConsumer(claimQueue, "claimAmount BETWEEN 1001 AND 5000");
-			JMSConsumer consumer = jmsContext.createConsumer(claimQueue, "doctorName LIKE J%");
+			JMSConsumer consumer = jmsContext.createConsumer(claimQueue, "doctorType IN('neuro', 'psych') OR JMSPriority BETWEEN 3 AND 6");
 			ObjectMessage objectMessage = jmsContext.createObjectMessage();
 			//objectMessage.setIntProperty("hospitalId", 1);
 			//objectMessage.setIntProperty("claimAmount", 1000);
-			objectMessage.setStringProperty("doctorName", "John");
+			//objectMessage.setStringProperty("doctorName", "John");
+			objectMessage.setStringProperty("doctorType", "gyna");
 			
 			Claim claim = new Claim();
 			claim.setHospitalID(1);
