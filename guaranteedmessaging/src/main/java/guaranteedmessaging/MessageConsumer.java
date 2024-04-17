@@ -18,11 +18,17 @@ public class MessageConsumer {
 		
 		try {
 			ActiveMQConnectionFactory connection = new ActiveMQConnectionFactory();
-			JMSContext jmsContext = connection.createContext();
+			JMSContext jmsContext = connection.createContext(JMSContext.SESSION_TRANSACTED);
 			JMSConsumer consumer = jmsContext.createConsumer(requestQueue);
 			
 			TextMessage message = (TextMessage) consumer.receive();
 			System.out.println(message.getText());
+			
+			jmsContext.commit();
+			
+			TextMessage message2 = (TextMessage) consumer.receive();
+			System.out.println(message2.getText());
+			//jmsContext.commit();
 			//message.acknowledge();
 		} finally {}
 

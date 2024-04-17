@@ -21,9 +21,9 @@ public class MessageProducer {
 			JMSProducer producer = jmsContext.createProducer();
 			
 			producer.send(requestQueue, "Message 1");
-			jmsContext.commit();
 			producer.send(requestQueue, "Message 2");
-			jmsContext.rollback();
+			jmsContext.commit();
+			//jmsContext.rollback();
 		} finally {}
 
 	}
