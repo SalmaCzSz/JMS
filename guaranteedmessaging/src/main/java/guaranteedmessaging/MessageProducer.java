@@ -17,10 +17,13 @@ public class MessageProducer {
 		
 		try {
 			ActiveMQConnectionFactory connection = new ActiveMQConnectionFactory();
-			JMSContext jmsContext = connection.createContext(JMSContext.DUPS_OK_ACKNOWLEDGE);
+			JMSContext jmsContext = connection.createContext(JMSContext.SESSION_TRANSACTED);
 			JMSProducer producer = jmsContext.createProducer();
 			
 			producer.send(requestQueue, "Message 1");
+			jmsContext.commit();
+			producer.send(requestQueue, "Message 2");
+			jmsContext.rollback();
 		} finally {}
 
 	}
