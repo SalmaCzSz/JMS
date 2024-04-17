@@ -17,7 +17,7 @@ public class MessageProducer {
 		
 		try {
 			ActiveMQConnectionFactory connection = new ActiveMQConnectionFactory();
-			JMSContext jmsContext = connection.createContext(JMSContext.AUTO_ACKNOWLEDGE);
+			JMSContext jmsContext = connection.createContext();
 			JMSProducer producer = jmsContext.createProducer();
 			
 			producer.send(requestQueue, "Message 1");
