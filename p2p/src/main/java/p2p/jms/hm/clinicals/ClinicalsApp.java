@@ -22,7 +22,7 @@ public class ClinicalsApp {
 		
 		try {
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-			JMSContext jmsContext = connectionFactory.createContext();
+			JMSContext jmsContext = connectionFactory.createContext("clinicaluser", "clinicalpass");
 			JMSProducer producer = jmsContext.createProducer();
 			
 			ObjectMessage objectMessage = jmsContext.createObjectMessage();

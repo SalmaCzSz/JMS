@@ -18,7 +18,7 @@ public class ElegibilityCheckerApp {
 		
 		try {
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-			JMSContext jmsContext = connectionFactory.createContext();
+			JMSContext jmsContext = connectionFactory.createContext("elegibilityrole", "elegibilitypass");
 			JMSConsumer consumer1 = jmsContext.createConsumer(requestQueue);
 			JMSConsumer consumer2 = jmsContext.createConsumer(requestQueue);
 			//consumer.setMessageListener(new ElegibilityCheckListener());
