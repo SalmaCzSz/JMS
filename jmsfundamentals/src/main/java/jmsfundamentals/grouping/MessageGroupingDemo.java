@@ -1,7 +1,7 @@
 package jmsfundamentals.grouping;
 
 import java.util.Map;
-
+import java.util.concurrent.ConcurrentHashMap;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSContext;
 import javax.jms.JMSException;
@@ -19,6 +19,7 @@ public class MessageGroupingDemo {
 	public static void main(String[] args) throws Exception {
 		InitialContext context = new InitialContext();
 		Queue queue = (Queue) context.lookup("queue/myQueue");
+		Map<String, String> receivedMessages = new ConcurrentHashMap<>();
 		
 		try (ActiveMQConnectionFactory connection = new ActiveMQConnectionFactory();
 			 JMSContext jmsContext = connection.createContext();
@@ -26,7 +27,9 @@ public class MessageGroupingDemo {
 			
 				JMSProducer producer = jmsContext.createProducer();
 				JMSConsumer consumer1 = jmsContext2.createConsumer(queue);
+				consumer1.setMessageListener(new MyListener("Consumer-1", receivedMessages));
 				JMSConsumer consumer2 = jmsContext2.createConsumer(queue);
+				consumer2.setMessageListener(new MyListener("Consumer-2", receivedMessages));
 				
 				int count = 10;
 				TextMessage[] messages = new TextMessage[count];
@@ -37,28 +40,35 @@ public class MessageGroupingDemo {
 					
 					producer.send(queue, messages[i]);
 				}
+				
+				for(TextMessage message: messages) {
+					if(!receivedMessages.get(message.getText()).equals("Consumer-1")) {
+						throw new IllegalStateException("Group Message: " + message.getText() + "has gone to the wrong receiver");
+					}
+				}
 		} finally {}
 	}
-	
-	
-	class MyListener implements MessageListener{
-		private String name;
-		private Map<String, String> receivedMessages;
-		
-		public MyListener(String name, Map<String, String> receivedMessages) {
-			this.name = name;
-			this.receivedMessages = receivedMessages;
-		}
+}
 
-		@Override
-		public void onMessage(Message message) {
-			TextMessage textMessage = (TextMessage) message;
-			try {
-				System.out.println("Message received is: " + textMessage.getText());
-				System.out.println("Listener name: " + name);
-			} catch (JMSException e) {
-				e.printStackTrace();
-			}
+
+class MyListener implements MessageListener{
+	private final String name;
+	private final Map<String, String> receivedMessages;
+	
+	public MyListener(String name, Map<String, String> receivedMessages) {
+		this.name = name;
+		this.receivedMessages = receivedMessages;
+	}
+
+	@Override
+	public void onMessage(Message message) {
+		TextMessage textMessage = (TextMessage) message;
+		try {
+			System.out.println("Message received is: " + textMessage.getText());
+			System.out.println("Listener name: " + name);
+			receivedMessages.put(textMessage.getText(), name);
+		} catch (JMSException e) {
+			e.printStackTrace();
 		}
 	}
 }
