@@ -41,6 +41,8 @@ public class MessageGroupingDemo {
 					producer.send(queue, messages[i]);
 				}
 				
+				Thread.sleep(2000);
+				
 				for(TextMessage message: messages) {
 					if(!receivedMessages.get(message.getText()).equals("Consumer-1")) {
 						throw new IllegalStateException("Group Message: " + message.getText() + "has gone to the wrong receiver");
