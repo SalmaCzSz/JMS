@@ -1,6 +1,8 @@
  ./standalone.sh -c standalone-full.xml
+	standalone.bat -c standalone-full.xml
 
 ./jboss-cli.sh 
+	.\jboss-cli.bat
 
 jms-queue add --queue-address=myQueue --entries=queue/myQueue,java:jboss/exported/jms/queue/myQueue
 
