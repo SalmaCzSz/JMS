@@ -3,6 +3,7 @@
 
 ./jboss-cli.sh 
 	.\jboss-cli.bat
+	connect
 
 jms-queue add --queue-address=myQueue --entries=queue/myQueue,java:jboss/exported/jms/queue/myQueue
 
